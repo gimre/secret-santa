@@ -138,15 +138,21 @@
 				$http( {
 					method: 'POST',
 					url: 'https://api.mailgun.net/v2/sandbox4e24519639e04dce9449aa32ff30ffed.mailgun.org/messages',
+					transformRequest: function ( data ) {
+						return Object.keys( data ).map( function ( k ) {
+							return encodeURIComponent( k ) + '=' + encodeURIComponent( data[ k ] );
+						} ).join( '&' );
+					},
 					headers: {
-						'Authorization': 'Basic YXBpOmtleS1kNjMxMTE0MjU1OGRkODMzYWI1YTU4MGI0OWEwMjhiOQ=='
+						'Authorization': 'Basic YXBpOmtleS1kNjMxMTE0MjU1OGRkODMzYWI1YTU4MGI0OWEwMjhiOQ==',
+						'Content-Type': 'application/x-www-form-urlencoded'
 					},
 					data: {
 						to: to,
 						from: from,
 						subject: subject,
 						text: 'Sortii au decis ca tu sa fii mosul pentru: ' + ( $scope.model.matches[ to ].name || $scope.model.matches[ to ].email ) + '!'
-					}
+					},
 				} );
 			}
 		};
