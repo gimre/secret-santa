@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+	<head>
+		<title>It's the season to be jolly</title>
+		<style type="text/css">[data-ng-cloak] { display: none !important; }</style>
+		<link href="styles.css" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+
+		<div class="app"
+			data-ng-app="secret-santa"
+			data-ng-controller="humans-controller"
+			data-ng-cloak>
+
+			<div class="panel head">
+				<input class="email clean header" type="email" placeholder="john.doe@gmail.com" autofocus required
+					data-ng-keydown="addHumanOnReturn( $event )"
+					data-ng-model="model.email"
+					data-ng-paste="extractEmailsFromPasteEvent( $event )">
+				<div class="controls">
+					<img src="img/ic_person_add_24px.svg"
+						data-ng-click="addHuman( )">
+					<img class="opacity-hover" src="img/ic_shuffle_24px.svg"
+						data-ng-click="matchHumans( )">
+					<img src="img/ic_sort_24px.svg"
+						data-ng-class="{ 'opacity-hover': !model.sort }"
+						data-ng-click="model.sort = model.sort ? '' : 'email'">
+				</div>
+			</div>
+
+		
+			<ul>
+				<li class="panel"
+					data-ng-repeat="h in model.humans | orderBy:model.sort">
+					<input class="human clean from half" placeholder="{{ h.email }}" type="text"
+						data-ng-model="h.name">
+					</input>
+					<input class="human clean to half" placeholder="{{ model.matches[ h.email ].email }}" type="text"
+						data-ng-show="model.matches[ h.email ]"
+						data-ng-value="model.matches[ h.email ].name">
+					</input>
+					<div class="remove opacity-hover"
+						data-ng-click="removeHuman( h )">
+					</div>
+					<div class="restrict"
+						data-ng-class="{ 'opacity-hover': !h.restrict[ model.matches[ h.email ].email ] }"
+						data-ng-click="toggleRestrictHumans( h, model.matches[ h.email ] )"
+						data-ng-show="model.matches[ h.email ]">
+					</div>
+				</li>
+			</ul>
+
+			<div class="panel send"
+				data-ng-class="{ disabled: !haveMatches( ) }"
+				data-ng-click="haveMatches( ) ? sendEmails( ) : '';">
+				<span>Send Emails</span> &nbsp; <img src="img/ic_send_24px.svg">
+			</div>
+		</div>		
+
+		<!--  -->
+		<script src="js/angular.min.js" type="text/javascript"></script>
+		<script src="js/app.js" type="text/javascript"></script>
+	</body>
+</html>
