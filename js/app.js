@@ -148,7 +148,7 @@
 						'Content-Type': 'application/x-www-form-urlencoded'
 					},
 					data: {
-						to: to,
+						to: '<' + to + '>',
 						from: from,
 						subject: subject,
 						text: 'Sortii au decis ca tu sa fii mosul pentru: ' + ( $scope.model.matches[ to ].name || $scope.model.matches[ to ].email ) + '!'
